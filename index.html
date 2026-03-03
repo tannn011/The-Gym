@@ -1,2048 +1,1322 @@
-/* ==========================================================
-  THE GYM — Premium Yellow/Black Website
-  - Fully responsive
-  - Smooth scroll
-  - Intro animation with energy effect
-  - Parallax backgrounds
-  - Anti-gravity floating shapes
-  - Scroll reveal animations
-  - Glow hover effects
-  - Ripple effect (JS assisted)
-  - Sticky navbar + progress bar
-  - Back-to-top
-  - Lightbox
-  - Testimonials carousel
-  - Responsive timetable (table -> cards on mobile)
-========================================================== */
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- =========================
+       THE GYM — Premium Gym Website
+       index.html
+       ========================= -->
 
-/* ==========================================================
-  1) CSS RESET + BASE
-========================================================== */
-:root{
-  --bg: #070707;
-  --bg2:#0b0b0b;
-  --panel: rgba(255,255,255,0.06);
-  --panel2: rgba(255,255,255,0.10);
-  --stroke: rgba(255,255,255,0.12);
+  <!-- Meta / SEO -->
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0f" />
 
-  --text:#f6f6f6;
-  --muted: rgba(246,246,246,0.78);
+  <title>THE GYM — Build Strength. Build Discipline. Build Power.</title>
+  <meta name="description" content="THE GYM — Premium modern gym experience. Strength training, cardio, CrossFit, personal training, group classes, boxing, yoga, sauna, nutrition bar, and more." />
+  <meta name="keywords" content="Gym, Fitness, Strength Training, Bodybuilding, CrossFit, Personal Training, Yoga, Zumba, Boxing, Sauna, Nutrition, Supplements" />
+  <meta name="author" content="THE GYM" />
+  <meta name="robots" content="index, follow" />
 
-  --yellow:#ffd400;
-  --yellow2:#ffea66;
-  --yellowDeep:#ffb200;
+  <!-- Open Graph -->
+  <meta property="og:title" content="THE GYM — Premium Modern Gym" />
+  <meta property="og:description" content="Build Strength. Build Discipline. Build Power. Join THE GYM today." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=1400&q=80" />
 
-  --shadow: 0 20px 80px rgba(0,0,0,0.55);
-  --shadow2: 0 14px 60px rgba(0,0,0,0.50);
-  --shadowGlow: 0 0 26px rgba(255,212,0,0.25);
-  --shadowGlowStrong: 0 0 40px rgba(255,212,0,0.35);
+  <!-- Favicons (simple inline data icon to keep files minimal) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0f'/%3E%3Cpath d='M14 34h6v-6h24v6h6v-9c0-2-2-4-4-4H18c-2 0-4 2-4 4v9z' fill='%23ffd400'/%3E%3Cpath d='M10 28h8v12h-8zM46 28h8v12h-8z' fill='%23ffd400'/%3E%3C/svg%3E" />
 
-  --radius: 18px;
-  --radius2: 28px;
+  <!-- Styles -->
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="stylesheet" href="style.css" />
 
-  --max: 1180px;
+  <!-- Prevent FOUC -->
+  <script>
+    document.documentElement.classList.add('js');
+  </script>
+</head>
 
-  --ease: cubic-bezier(.2,.9,.2,1);
-  --ease2: cubic-bezier(.16, 1, .3, 1);
+<body>
+  <!-- =========================================================
+       ACCESSIBILITY: Skip link
+       ========================================================= -->
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  --grid-gap: 22px;
-  --nav-h: 78px;
-}
+  <!-- =========================================================
+       Scroll Progress Bar
+       ========================================================= -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
 
-*{box-sizing:border-box;}
-html{
-  scroll-behavior: smooth;
-  height: 100%;
-}
-body{
-  margin:0;
-  min-height:100%;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background:
-    radial-gradient(1200px 800px at 15% 10%, rgba(255,212,0,0.10), transparent 60%),
-    radial-gradient(900px 650px at 85% 25%, rgba(255,212,0,0.08), transparent 55%),
-    linear-gradient(180deg, var(--bg), var(--bg2));
-  color: var(--text);
-  overflow-x:hidden;
-}
+  <!-- =========================================================
+       Intro / Preloader Screen (3s)
+       ========================================================= -->
+  <div class="intro" id="intro" role="dialog" aria-label="Welcome screen" aria-modal="true">
+    <div class="intro__energy" aria-hidden="true"></div>
+    <div class="intro__grid" aria-hidden="true"></div>
 
-img{max-width:100%;display:block;}
-a{color:inherit;text-decoration:none;}
-button{font-family: inherit;}
-::selection{background: rgba(255,212,0,0.22);}
+    <div class="intro__content">
+      <div class="intro__badge">
+        <span class="intro__badge-dot" aria-hidden="true"></span>
+        <span class="intro__badge-text">PREMIUM FITNESS EXPERIENCE</span>
+      </div>
 
-/* Accessibility */
-:focus-visible{
-  outline: 3px solid rgba(255,212,0,0.60);
-  outline-offset: 3px;
-  border-radius: 10px;
-}
+      <h1 class="intro__title" aria-label="THE GYM">
+        <span class="intro__title-glow" aria-hidden="true">THE GYM</span>
+        <span class="intro__title-main">THE GYM</span>
+      </h1>
 
-/* ==========================================================
-  2) UTILITIES
-========================================================== */
-.container{
-  width: min(var(--max), calc(100% - 40px));
-  margin: 0 auto;
-}
-.section{
-  padding: 86px 0;
-  position: relative;
-}
-.section--about{padding-top: 96px;}
-.section--facilities{padding-top: 96px;}
-.section--programs{padding-top: 96px;}
-.section--trainers{padding-top: 96px;}
-.section--gallery{padding-top: 96px;}
-.section--testimonials{padding-top: 96px;}
-.section--timetable{padding-top: 96px;}
-.section--location{padding-top: 96px;}
-.section--enquiry{padding-top: 96px; padding-bottom: 96px;}
+      <p class="intro__subtitle">
+        Build Strength. Build Discipline. Build Power.
+      </p>
 
-.grid{
-  display:grid;
-  gap: var(--grid-gap);
-}
-.grid--2{
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-}
+      <div class="intro__loader" aria-hidden="true">
+        <div class="intro__loader-bar"></div>
+      </div>
 
-.kicker{
-  margin:0 0 12px;
-  letter-spacing: 0.26em;
-  font-weight: 800;
-  font-size: 12px;
-  color: rgba(255,212,0,0.90);
-  text-transform: uppercase;
-}
-.section__head{
-  margin-bottom: 26px;
-}
-.section__head--center{
-  text-align:center;
-  margin-left:auto;
-  margin-right:auto;
-  max-width: 820px;
-}
-.section__title{
-  margin:0 0 12px;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  font-size: clamp(26px, 2.8vw, 44px);
-  line-height: 1.08;
-}
-.section__desc{
-  margin:0;
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.7;
-}
+      <p class="intro__hint">Loading experience…</p>
+    </div>
+  </div>
 
-/* Accent text */
-.text-accent{
-  color: var(--yellow);
-  text-shadow: 0 0 18px rgba(255,212,0,0.24);
-}
+  <!-- =========================================================
+       NAVBAR
+       ========================================================= -->
+  <header class="header" id="top">
+    <nav class="nav" id="nav">
+      <a class="nav__brand" href="#home" aria-label="THE GYM home">
+        <span class="nav__logo" aria-hidden="true"></span>
+        <span class="nav__brand-text">
+          <span class="nav__brand-top">THE</span>
+          <span class="nav__brand-bottom">GYM</span>
+        </span>
+      </a>
 
-/* Buttons */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-radius: 14px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.04);
-  color: var(--text);
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
-  position: relative;
-  overflow: hidden;
-  user-select:none;
-  cursor:pointer;
-}
-.btn:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--shadowGlow);
-  border-color: rgba(255,212,0,0.35);
-}
-.btn:active{
-  transform: translateY(0px) scale(0.99);
-}
-.btn--primary{
-  background:
-    linear-gradient(135deg, rgba(255,212,0,0.95), rgba(255,178,0,0.95));
-  color: #141414;
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 10px 30px rgba(255,212,0,0.14);
-}
-.btn--primary:hover{
-  box-shadow: var(--shadowGlowStrong);
-}
-.btn--ghost{
-  background: rgba(0,0,0,0.20);
-  border-color: rgba(255,255,255,0.18);
-}
-.btn--full{width:100%;}
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="nav__toggle-lines" aria-hidden="true">
+          <span class="nav__line"></span>
+          <span class="nav__line"></span>
+          <span class="nav__line"></span>
+        </span>
+      </button>
 
-/* Icon button */
-.icon-btn{
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.05);
-  color: var(--text);
-  font-size: 26px;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
-  overflow:hidden;
-}
-.icon-btn:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--shadowGlow);
-  border-color: rgba(255,212,0,0.35);
-}
+      <div class="nav__menu" id="navMenu">
+        <ul class="nav__links" role="list">
+          <li><a class="nav__link" href="#home" data-scrollspy>Home</a></li>
+          <li><a class="nav__link" href="#about" data-scrollspy>About</a></li>
+          <li><a class="nav__link" href="#facilities" data-scrollspy>Facilities</a></li>
+          <li><a class="nav__link" href="#programs" data-scrollspy>Programs</a></li>
+          <li><a class="nav__link" href="#trainers" data-scrollspy>Trainers</a></li>
+          <li><a class="nav__link" href="#gallery" data-scrollspy>Transformations</a></li>
+          <li><a class="nav__link" href="#testimonials" data-scrollspy>Reviews</a></li>
+          <li><a class="nav__link" href="#timetable" data-scrollspy>Timetable</a></li>
+          <li><a class="nav__link" href="#location" data-scrollspy>Location</a></li>
+          <li><a class="nav__link nav__link--cta" href="#enquiry">Enquiry</a></li>
+        </ul>
 
-/* Chips */
-.chip{
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.05);
-  color: var(--text);
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  cursor:pointer;
-  transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
-}
-.chip:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 0 22px rgba(255,212,0,0.16);
-  border-color: rgba(255,212,0,0.35);
-}
-.chip--active{
-  background: linear-gradient(135deg, rgba(255,212,0,0.95), rgba(255,178,0,0.95));
-  color:#151515;
-  border-color: rgba(255,212,0,0.45);
-}
+        <div class="nav__meta">
+          <div class="nav__meta-chip">
+            <span class="nav__meta-dot" aria-hidden="true"></span>
+            <span>Open Today: <strong>5:30 AM – 11:00 PM</strong></span>
+          </div>
+          <a class="nav__meta-phone" href="tel:+918605463560" aria-label="Call THE GYM">
+            +91 86054 63560
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-/* Social buttons */
-.social-btn{
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.06);
-  display:grid;
-  place-items:center;
-  font-weight: 900;
-  letter-spacing: .03em;
-  color: var(--text);
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
-}
-.social-btn:hover{
-  transform: translateY(-2px);
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 18px rgba(255,212,0,0.18);
-}
-.social-btn--footer{
-  width: 44px;
-  height: 44px;
-}
+  <!-- =========================================================
+       MAIN
+       ========================================================= -->
+  <main id="main">
+    <!-- =======================================================
+         HERO / LANDING
+         ======================================================= -->
+    <section class="hero" id="home" aria-label="Hero">
+      <div class="hero__bg" aria-hidden="true"></div>
 
-/* ==========================================================
-  3) PRELOADER
-========================================================== */
-.preloader{
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: radial-gradient(1000px 600px at 50% 30%, rgba(255,212,0,0.10), transparent 60%), #060606;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition: opacity .45s var(--ease), visibility .45s var(--ease);
-}
-.preloader.is-hidden{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-.preloader__wrap{
-  width: min(520px, 92vw);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap: 18px;
-  padding: 20px;
-}
-.preloader__ring{
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  border: 3px solid rgba(255,255,255,0.10);
-  border-top-color: rgba(255,212,0,0.95);
-  border-right-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 22px rgba(255,212,0,0.18);
-  animation: spin 1.1s linear infinite;
-}
-.preloader__text{
-  display:flex;
-  flex-direction:column;
-  gap: 4px;
-}
-.preloader__brand{
-  font-weight: 1000;
-  letter-spacing: 0.18em;
-  color: var(--yellow);
-  text-transform: uppercase;
-}
-.preloader__sub{
-  color: var(--muted);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-size: 14px;
-}
-@keyframes spin{
-  to{transform: rotate(360deg);}
-}
+      <!-- Floating shapes (anti-gravity) -->
+      <div class="floaters" aria-hidden="true">
+        <div class="floater floater--1" data-float data-speed="0.35"></div>
+        <div class="floater floater--2" data-float data-speed="0.55"></div>
+        <div class="floater floater--3" data-float data-speed="0.25"></div>
+        <div class="floater floater--4" data-float data-speed="0.42"></div>
+        <div class="floater floater--5" data-float data-speed="0.62"></div>
+        <div class="floater floater--6" data-float data-speed="0.18"></div>
+        <div class="floater floater--7" data-float data-speed="0.48"></div>
+        <div class="floater floater--8" data-float data-speed="0.30"></div>
+      </div>
 
-/* ==========================================================
-  4) INTRO SCREEN (brand entrance + energy effect)
-========================================================== */
-.intro{
-  position: fixed;
-  inset: 0;
-  z-index: 1500;
-  background: #050505;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  transition: opacity .8s var(--ease), visibility .8s var(--ease);
-}
-.intro.is-hidden{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-.intro__bg{
-  position:absolute;
-  inset:-30%;
-  background:
-    radial-gradient(closest-side at 30% 40%, rgba(255,212,0,0.15), transparent 55%),
-    radial-gradient(closest-side at 70% 60%, rgba(255,212,0,0.10), transparent 60%),
-    conic-gradient(from 180deg, rgba(255,212,0,0.20), transparent, rgba(255,212,0,0.18), transparent);
-  filter: blur(18px);
-  opacity: 0.8;
-  animation: energyPulse 3.5s var(--ease) infinite alternate;
-}
-@keyframes energyPulse{
-  0%{transform: translate3d(-1%, -1%, 0) scale(1.02) rotate(-2deg);}
-  100%{transform: translate3d(1%, 1%, 0) scale(1.10) rotate(2deg);}
-}
-.intro__content{
-  position: relative;
-  text-align:center;
-  padding: 40px 24px;
-  width: min(820px, 92vw);
-}
-.intro__glow{
-  position:absolute;
-  inset:-40px;
-  background: radial-gradient(circle at 50% 40%, rgba(255,212,0,0.18), transparent 60%);
-  filter: blur(20px);
-  opacity: 0.7;
-  animation: introGlow 1.8s var(--ease) infinite alternate;
-}
-@keyframes introGlow{
-  from{transform: scale(0.98); opacity: 0.55;}
-  to{transform: scale(1.06); opacity: 0.85;}
-}
-.intro__title{
-  margin:0;
-  font-size: clamp(48px, 7vw, 110px);
-  font-weight: 1000;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  line-height: 0.95;
-}
-.intro__title__text{
-  display:inline-block;
-  color: var(--yellow);
-  text-shadow:
-    0 0 26px rgba(255,212,0,0.30),
-    0 0 60px rgba(255,212,0,0.18);
-  animation: introEnter 1.1s var(--ease2) both;
-}
-@keyframes introEnter{
-  0%{opacity:0; transform: translateY(12px) scale(0.88); filter: blur(4px);}
-  60%{opacity:1; transform: translateY(0) scale(1.03); filter: blur(0px);}
-  100%{opacity:1; transform: translateY(0) scale(1.00);}
-}
-.intro__tagline{
-  margin: 18px 0 0;
-  color: rgba(246,246,246,0.82);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 13px;
-}
-.intro__meter{
-  margin: 26px auto 0;
-  width: min(520px, 90%);
-  height: 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  overflow:hidden;
-  box-shadow: 0 0 24px rgba(255,212,0,0.10);
-}
-.intro__meter__bar{
-  height:100%;
-  width: 0%;
-  background: linear-gradient(90deg, rgba(255,212,0,0.25), rgba(255,212,0,0.95), rgba(255,178,0,0.95));
-  animation: introLoad 3s linear forwards;
-}
-@keyframes introLoad{
-  to{width: 100%;}
-}
+      <div class="container hero__container">
+        <div class="hero__content">
+          <div class="hero__kicker reveal" data-reveal>
+            <span class="pill">
+              <span class="pill__dot" aria-hidden="true"></span>
+              Premium Strength & Conditioning
+            </span>
+          </div>
 
-/* ==========================================================
-  5) NAVBAR + PROGRESS BAR
-========================================================== */
-.header{
-  position: sticky;
-  top: 0;
-  z-index: 1200;
-  background: rgba(6,6,6,0.70);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.10);
-  height: var(--nav-h);
-}
-.nav{
-  height: var(--nav-h);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 18px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-}
-.brand__mark{
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  background: linear-gradient(135deg, rgba(255,212,0,0.95), rgba(255,178,0,0.95));
-  box-shadow: 0 0 22px rgba(255,212,0,0.25);
-}
-.brand__text{
-  font-weight: 1000;
-  letter-spacing: 0.16em;
-  color: var(--yellow);
-  text-transform: uppercase;
-  font-size: 14px;
-}
-.nav__menu{
-  display:flex;
-  align-items:center;
-  gap: 14px;
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-.nav__link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding: 10px 12px;
-  border-radius: 12px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  font-size: 13px;
-  color: rgba(246,246,246,0.90);
-  border: 1px solid transparent;
-  transition: background .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
-}
-.nav__link:hover{
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,212,0,0.22);
-  transform: translateY(-1px);
-}
-.nav__link--cta{
-  background: linear-gradient(135deg, rgba(255,212,0,0.92), rgba(255,178,0,0.92));
-  color:#141414;
-  border-color: rgba(255,212,0,0.35);
-}
-.nav__toggle{
-  display:none;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.05);
-  cursor:pointer;
-  position: relative;
-  overflow:hidden;
-}
-.nav__toggle__bar{
-  display:block;
-  width: 22px;
-  height: 2px;
-  background: rgba(246,246,246,0.92);
-  margin: 6px auto;
-  border-radius: 999px;
-  transition: transform .25s var(--ease), opacity .25s var(--ease);
-}
-.nav__toggle.is-open .nav__toggle__bar:nth-child(1){transform: translateY(8px) rotate(45deg);}
-.nav__toggle.is-open .nav__toggle__bar:nth-child(2){opacity: 0;}
-.nav__toggle.is-open .nav__toggle__bar:nth-child(3){transform: translateY(-8px) rotate(-45deg);}
+          <h2 class="hero__title reveal" data-reveal>
+            Build Strength.<br />
+            Build Discipline.<br />
+            <span class="hero__title-accent">Build Power.</span>
+          </h2>
 
-.menu-overlay{
-  position: fixed;
-  inset: 0;
-  z-index: 1100;
-  background: rgba(0,0,0,0.55);
-  opacity:0;
-  visibility:hidden;
-  transition: opacity .25s var(--ease), visibility .25s var(--ease);
-}
-.menu-overlay.is-open{
-  opacity:1;
-  visibility:visible;
-}
+          <p class="hero__lead reveal" data-reveal>
+            Welcome to <strong>THE GYM</strong> — a bold, premium training space engineered for real transformation.
+            Lift heavier, move faster, recover smarter, and show up stronger every week.
+          </p>
 
-/* Scroll progress bar */
-.scroll-progress{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  z-index: 1400;
-  background: transparent;
-}
-.scroll-progress__bar{
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, rgba(255,212,0,0.35), rgba(255,212,0,1), rgba(255,178,0,1));
-  box-shadow: 0 0 18px rgba(255,212,0,0.35);
-}
+          <div class="hero__actions reveal" data-reveal>
+            <a class="btn btn--primary ripple" href="#enquiry" data-ripple>
+              Join Now
+            </a>
+            <a class="btn btn--ghost ripple" href="#enquiry" data-ripple>
+              Book Free Trial
+            </a>
+          </div>
 
-/* ==========================================================
-  6) HERO (parallax + floating)
-========================================================== */
-.hero{
-  min-height: calc(100svh - var(--nav-h));
-  display:flex;
-  align-items:center;
-  position: relative;
-  overflow:hidden;
-  padding: 70px 0 70px;
-}
-.hero__bg{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-}
-.hero__bg__image{
-  position:absolute;
-  inset:-10%;
-  background-size: cover;
-  background-position: center;
-  filter: saturate(1.1) contrast(1.1);
-  transform: translate3d(0,0,0);
-}
-.hero__bg__image--one{
-  background-image: url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1800&q=70");
-  opacity: 0.80;
-}
-.hero__bg__image--two{
-  background-image: url("https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?auto=format&fit=crop&w=1800&q=70");
-  opacity: 0.25;
-  mix-blend-mode: screen;
-}
-.hero__bg__overlay{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(900px 500px at 30% 30%, rgba(255,212,0,0.14), transparent 60%),
-    radial-gradient(1000px 600px at 70% 70%, rgba(255,212,0,0.10), transparent 65%),
-    linear-gradient(180deg, rgba(0,0,0,0.60), rgba(0,0,0,0.84));
-}
+          <div class="hero__stats reveal" data-reveal>
+            <div class="stat">
+              <div class="stat__value" data-counter="1500">0</div>
+              <div class="stat__label">Members Trained</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" data-counter="12">0</div>
+              <div class="stat__label">Expert Trainers</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" data-counter="24">0</div>
+              <div class="stat__label">Programs</div>
+            </div>
+          </div>
 
-.hero__content{
-  position: relative;
-  z-index: 2;
-}
-.hero__badge{
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(246,246,246,0.90);
-  font-weight: 900;
-  letter-spacing: 0.03em;
-  font-size: 13px;
-  box-shadow: 0 0 22px rgba(255,212,0,0.08);
-}
-.hero__badge__dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 99px;
-  background: var(--yellow);
-  box-shadow: 0 0 22px rgba(255,212,0,0.38);
-}
+          <div class="hero__scroll reveal" data-reveal>
+            <a class="hero__scroll-link" href="#about" aria-label="Scroll to About section">
+              <span class="hero__scroll-mouse" aria-hidden="true"></span>
+              <span class="hero__scroll-text">Scroll to explore</span>
+            </a>
+          </div>
+        </div>
 
-.hero__title{
-  margin: 20px 0 14px;
-  font-size: clamp(38px, 4.4vw, 78px);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  font-weight: 1000;
-  text-transform: none;
-}
-.hero__subtitle{
-  margin:0;
-  max-width: 720px;
-  color: rgba(246,246,246,0.84);
-  font-size: 16px;
-  line-height: 1.75;
-}
-.hero__cta{
-  margin-top: 24px;
-  display:flex;
-  gap: 12px;
-  flex-wrap:wrap;
-}
-.hero__stats{
-  margin-top: 30px;
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  max-width: 840px;
-}
-.stat{
-  padding: 14px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 26px rgba(0,0,0,0.25);
-}
-.stat__value{
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  font-size: 20px;
-  color: var(--yellow);
-  text-shadow: 0 0 18px rgba(255,212,0,0.22);
-}
-.stat__label{
-  margin-top: 4px;
-  font-weight: 800;
-  font-size: 12px;
-  color: rgba(246,246,246,0.78);
-  letter-spacing: 0.02em;
-}
+        <div class="hero__media">
+          <!-- Parallax images -->
+          <figure class="hero__figure reveal" data-reveal data-parallax="0.18">
+            <img
+              class="hero__img hero__img--main"
+              src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80"
+              alt="Athlete training with weights"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+            <figcaption class="sr-only">Strength training at THE GYM</figcaption>
+          </figure>
 
-/* Scroll indicator */
-.hero__scroll{
-  margin-top: 36px;
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: rgba(246,246,246,0.70);
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 11px;
-}
-.hero__scroll__mouse{
-  width: 30px;
-  height: 48px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.22);
-  position: relative;
-  display:grid;
-  place-items:center;
-}
-.hero__scroll__wheel{
-  width: 6px;
-  height: 6px;
-  border-radius: 99px;
-  background: rgba(255,212,0,0.95);
-  box-shadow: 0 0 18px rgba(255,212,0,0.35);
-  animation: wheel 1.2s var(--ease) infinite;
-}
-@keyframes wheel{
-  0%{transform: translateY(-10px); opacity: 0;}
-  30%{opacity: 1;}
-  60%{transform: translateY(10px); opacity: 0.8;}
-  100%{transform: translateY(12px); opacity: 0;}
-}
+          <div class="hero__stack">
+            <figure class="hero__mini reveal" data-reveal data-parallax="0.32">
+              <img
+                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80"
+                alt="Gym equipment and weights"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
 
-/* Floating shapes layer */
-.floating-layer{
-  position:absolute;
-  inset:0;
-  z-index: 1;
-  pointer-events:none;
-}
-.float-shape{
-  position:absolute;
-  border-radius: 18px;
-  background:
-    linear-gradient(135deg, rgba(255,212,0,0.35), rgba(255,212,0,0.06));
-  border: 1px solid rgba(255,212,0,0.25);
-  box-shadow: 0 0 28px rgba(255,212,0,0.10);
-  filter: blur(0px);
-  opacity: 0.85;
-  transform: translate3d(0,0,0);
-}
-.float-shape--1{width: 90px;height: 90px; top: 14%; left: 8%; border-radius: 24px;}
-.float-shape--2{width: 140px;height: 70px; top: 22%; right: 12%; border-radius: 999px;}
-.float-shape--3{width: 64px;height: 64px; bottom: 22%; left: 12%; border-radius: 18px;}
-.float-shape--4{width: 110px;height: 110px; bottom: 16%; right: 10%; border-radius: 28px;}
-.float-shape--5{width: 210px;height: 80px; top: 55%; left: 50%; transform: translateX(-50%); border-radius: 999px; opacity: 0.55;}
+            <figure class="hero__mini reveal" data-reveal data-parallax="0.26">
+              <img
+                src="https://images.unsplash.com/photo-1599058917765-6f404d4c2df7?auto=format&fit=crop&w=900&q=80"
+                alt="Bodybuilder preparing for a lift"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* ==========================================================
-  7) ABOUT
-========================================================== */
-.section--about::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: radial-gradient(900px 400px at 20% 30%, rgba(255,212,0,0.10), transparent 60%);
-  pointer-events:none;
-}
-.about__media{
-  position: relative;
-  min-height: 520px;
-}
-.about__image{
-  position:absolute;
-  border-radius: var(--radius2);
-  background-size: cover;
-  background-position: center;
-  box-shadow: var(--shadow2);
-  border: 1px solid rgba(255,255,255,0.12);
-}
-.about__image--main{
-  inset: 0 60px 80px 0;
-  background-image: url("https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=1400&q=70");
-}
-.about__image--accent{
-  width: 56%;
-  height: 46%;
-  right: 0;
-  bottom: 0;
-  background-image: url("https://images.unsplash.com/photo-1517964603305-11c0f6f66012?auto=format&fit=crop&w=1400&q=70");
-  filter: contrast(1.15) saturate(1.05);
-}
-.about__badge{
-  position:absolute;
-  left: 18px;
-  bottom: 22px;
-  width: 130px;
-  height: 130px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,212,0,0.25), transparent 60%),
-    rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,212,0,0.35);
-  box-shadow: 0 0 30px rgba(255,212,0,0.12);
-  display:grid;
-  place-items:center;
-  text-align:center;
-  padding: 10px;
-  backdrop-filter: blur(10px);
-}
-.about__badge__top,
-.about__badge__bot{
-  font-weight: 900;
-  letter-spacing: 0.22em;
-  font-size: 10px;
-  color: rgba(246,246,246,0.80);
-}
-.about__badge__mid{
-  font-weight: 1000;
-  letter-spacing: 0.16em;
-  font-size: 16px;
-  color: var(--yellow);
-}
-.about__content{position:relative; z-index: 1;}
+    <!-- =======================================================
+         ABOUT US
+         ======================================================= -->
+    <section class="section about" id="about" aria-label="About THE GYM">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>ABOUT US</p>
+          <h2 class="section__title reveal" data-reveal>
+            Premium training. Relentless results.
+          </h2>
+          <p class="section__subtitle reveal" data-reveal>
+            THE GYM blends bold coaching, elite equipment, and a no-excuses culture designed to help you level up.
+          </p>
+        </header>
 
-.about__cards{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 14px;
-  margin-top: 18px;
-}
-.info-card{
-  padding: 16px 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 26px rgba(0,0,0,0.20);
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
-}
-.info-card:hover{
-  transform: translateY(-3px);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 28px rgba(255,212,0,0.12);
-}
-.info-card__icon{
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: rgba(255,212,0,0.10);
-  border: 1px solid rgba(255,212,0,0.22);
-  display:grid;
-  place-items:center;
-  font-size: 18px;
-  box-shadow: 0 0 18px rgba(255,212,0,0.10);
-}
-.info-card__title{
-  margin: 10px 0 8px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  font-size: 16px;
-}
-.info-card__text{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.65;
-  font-size: 14px;
-}
-.about__cta{
-  margin-top: 18px;
-  display:flex;
-  gap: 12px;
-  flex-wrap:wrap;
-}
+        <div class="about__grid">
+          <article class="card card--glass reveal" data-reveal>
+            <h3 class="card__title">Our Mission</h3>
+            <p class="card__text">
+              To build a community of disciplined athletes — from beginners to advanced lifters — by delivering
+              a premium gym environment, expert programming, and consistent accountability.
+            </p>
+            <ul class="list list--check">
+              <li>Progressive training systems</li>
+              <li>Results-first coaching</li>
+              <li>Recovery + performance balance</li>
+              <li>Strong, supportive culture</li>
+            </ul>
+          </article>
 
-/* ==========================================================
-  8) FACILITIES
-========================================================== */
-.section--facilities{
-  background:
-    radial-gradient(900px 420px at 75% 30%, rgba(255,212,0,0.09), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-}
-.facility-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 26px;
-}
-.facility-card{
-  padding: 18px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 30px rgba(0,0,0,0.20);
-  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
-  position: relative;
-  overflow:hidden;
-}
-.facility-card::before{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,212,0,0.16), transparent 62%),
-    radial-gradient(circle at 70% 60%, rgba(255,212,0,0.10), transparent 64%);
-  opacity:0;
-  transition: opacity .22s var(--ease);
-}
-.facility-card:hover{
-  transform: translateY(-4px);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 40px rgba(255,212,0,0.12);
-  background: rgba(255,255,255,0.06);
-}
-.facility-card:hover::before{opacity:1;}
-.facility-card__icon{
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: rgba(255,212,0,0.10);
-  border: 1px solid rgba(255,212,0,0.24);
-  display:grid;
-  place-items:center;
-  font-size: 20px;
-  box-shadow: 0 0 20px rgba(255,212,0,0.10);
-  position: relative;
-  z-index: 1;
-}
-.facility-card__title{
-  margin: 12px 0 8px;
-  font-size: 16px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  position: relative;
-  z-index: 1;
-}
-.facility-card__text{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.65;
-  font-size: 14px;
-  position: relative;
-  z-index: 1;
-}
+          <article class="card card--glass reveal" data-reveal>
+            <h3 class="card__title">Transformation Philosophy</h3>
+            <p class="card__text">
+              Real change is built through <strong>intensity</strong>, <strong>consistency</strong>, and
+              <strong>structure</strong>. We help you master the basics, then scale your performance with progressive overload,
+              smart conditioning, and sustainable nutrition habits.
+            </p>
+            <div class="about__quote">
+              <p class="about__quote-text">
+                “Motivation gets you started. Discipline keeps you going.”
+              </p>
+              <p class="about__quote-meta">— THE GYM coaching mantra</p>
+            </div>
+          </article>
 
-.facilities__foot{
-  margin-top: 24px;
-}
-.facilities__banner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 18px;
-  padding: 18px 18px;
-  border-radius: 22px;
-  border: 1px solid rgba(255,212,0,0.26);
-  background:
-    radial-gradient(900px 500px at 20% 30%, rgba(255,212,0,0.16), transparent 60%),
-    rgba(255,255,255,0.04);
-  box-shadow: 0 0 40px rgba(255,212,0,0.10);
-}
-.facilities__banner__text h4{
-  margin:0 0 6px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.facilities__banner__text p{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-}
+          <article class="card card--glass reveal" data-reveal>
+            <h3 class="card__title">Trainer Experience</h3>
+            <p class="card__text">
+              Our coaches specialize in bodybuilding, strength & conditioning, functional training, fat-loss,
+              mobility, and performance. Every plan is built around your goal, schedule, and recovery.
+            </p>
+            <div class="about__badges">
+              <span class="badge">Strength Coaching</span>
+              <span class="badge">Body Recomposition</span>
+              <span class="badge">Mobility + Rehab</span>
+              <span class="badge">Athletic Performance</span>
+              <span class="badge">Contest Prep</span>
+              <span class="badge">Beginner Friendly</span>
+            </div>
+          </article>
+        </div>
 
-/* ==========================================================
-  9) PROGRAMS + PRICING
-========================================================== */
-.section--programs{
-  background:
-    radial-gradient(900px 450px at 20% 25%, rgba(255,212,0,0.07), transparent 60%),
-    linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
-}
-.program-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 26px;
-}
-.program-card{
-  padding: 18px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 30px rgba(0,0,0,0.20);
-  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
-}
-.program-card:hover{
-  transform: translateY(-4px);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 40px rgba(255,212,0,0.12);
-}
-.program-card__icon{
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: rgba(255,212,0,0.10);
-  border: 1px solid rgba(255,212,0,0.24);
-  display:grid;
-  place-items:center;
-  font-size: 20px;
-  box-shadow: 0 0 20px rgba(255,212,0,0.10);
-}
-.program-card__title{
-  margin: 12px 0 8px;
-  font-size: 16px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.program-card__text{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.65;
-  font-size: 14px;
-}
-.program-card__list{
-  margin: 12px 0 0;
-  padding-left: 18px;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.7;
-  font-size: 14px;
-}
-.program-card__list li{margin: 6px 0;}
+        <div class="about__banner reveal" data-reveal>
+          <div class="about__banner-left">
+            <h3 class="about__banner-title">You don’t need perfect. You need consistent.</h3>
+            <p class="about__banner-text">
+              Start with a free trial. Meet a coach. Get your first plan. Walk out stronger than you came in.
+            </p>
+          </div>
+          <div class="about__banner-right">
+            <a class="btn btn--primary ripple" href="#enquiry" data-ripple>Start Free Trial</a>
+            <a class="btn btn--ghost ripple" href="#programs" data-ripple>Explore Programs</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-.pricing{margin-top: 44px;}
-.pricing-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 22px;
-}
-.price-card{
-  padding: 18px 18px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 34px rgba(0,0,0,0.22);
-  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
-  position: relative;
-  overflow:hidden;
-}
-.price-card:hover{
-  transform: translateY(-4px) scale(1.01);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 44px rgba(255,212,0,0.12);
-}
-.price-card__head{
-  margin-bottom: 10px;
-}
-.price-card__title{
-  margin:0;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.price-card__sub{
-  margin: 6px 0 0;
-  color: rgba(246,246,246,0.78);
-  font-weight: 800;
-  font-size: 13px;
-}
-.price-card__price{
-  display:flex;
-  align-items:baseline;
-  gap: 6px;
-  padding: 12px 0;
-}
-.price-card__currency{
-  font-weight: 1000;
-  color: rgba(246,246,246,0.86);
-}
-.price-card__amount{
-  font-weight: 1000;
-  font-size: 40px;
-  letter-spacing: -0.04em;
-  color: var(--yellow);
-  text-shadow: 0 0 18px rgba(255,212,0,0.18);
-}
-.price-card__period{
-  color: rgba(246,246,246,0.74);
-  font-weight: 800;
-  font-size: 12px;
-}
-.price-card__features{
-  margin: 0 0 14px;
-  padding-left: 18px;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.7;
-  font-size: 14px;
-}
-.price-card__features li{margin: 6px 0;}
-.price-card--popular{
-  border-color: rgba(255,212,0,0.35);
-  background:
-    radial-gradient(900px 500px at 20% 30%, rgba(255,212,0,0.18), transparent 60%),
-    rgba(255,255,255,0.05);
-  box-shadow: 0 0 54px rgba(255,212,0,0.12);
-}
-.price-card__badge{
-  position:absolute;
-  top: 14px;
-  right: 14px;
-  background: linear-gradient(135deg, rgba(255,212,0,0.95), rgba(255,178,0,0.95));
-  color:#141414;
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-weight: 1000;
-  letter-spacing: 0.06em;
-  font-size: 10px;
-  text-transform: uppercase;
-  box-shadow: 0 0 24px rgba(255,212,0,0.20);
-}
+    <!-- =======================================================
+         FACILITIES (icons, hover, scroll entrance)
+         ======================================================= -->
+    <section class="section facilities" id="facilities" aria-label="Facilities">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>FACILITIES</p>
+          <h2 class="section__title reveal" data-reveal>Everything a premium gym provides</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Purpose-built zones, recovery amenities, and top-tier comfort — so you can train harder and recover better.
+          </p>
+        </header>
 
-/* ==========================================================
-  10) TRAINERS (flip cards)
-========================================================== */
-.section--trainers{
-  background:
-    radial-gradient(900px 450px at 80% 20%, rgba(255,212,0,0.08), transparent 62%),
-    linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
-}
-.trainer-grid{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 26px;
-}
-.trainer-card{
-  perspective: 1100px;
-}
-.trainer-card__inner{
-  position: relative;
-  width: 100%;
-  min-height: 360px;
-  transform-style: preserve-3d;
-  transition: transform .8s var(--ease2);
-}
-.trainer-card:hover .trainer-card__inner{
-  transform: rotateY(180deg);
-}
-.trainer-card__front,
-.trainer-card__back{
-  position:absolute;
-  inset:0;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 34px rgba(0,0,0,0.22);
-  overflow:hidden;
-  backface-visibility: hidden;
-}
-.trainer-card__img{
-  height: 55%;
-  background-size: cover;
-  background-position: center;
-  filter: saturate(1.08) contrast(1.05);
-}
-.trainer-card__img--1{background-image:url("https://images.unsplash.com/photo-1594737625785-c08868f53d3b?auto=format&fit=crop&w=1400&q=70");}
-.trainer-card__img--2{background-image:url("https://images.unsplash.com/photo-1526401485004-2aa7a596f3b1?auto=format&fit=crop&w=1400&q=70");}
-.trainer-card__img--3{background-image:url("https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1400&q=70");}
-.trainer-card__img--4{background-image:url("https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&w=1400&q=70");}
+        <!-- Inline SVG icon sprites (no external libraries) -->
+        <svg class="sr-only" aria-hidden="true" focusable="false">
+          <!-- Basic icon set (minimal, bold, consistent stroke) -->
+          <symbol id="i-dumbbell" viewBox="0 0 24 24">
+            <path d="M6 9v6M18 9v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8.5 10.5v3M15.5 10.5v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4 8.5v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 8.5v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-.trainer-card__meta{
-  padding: 16px;
-}
-.trainer-card__name{
-  margin:0 0 6px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.trainer-card__role{
-  margin:0 0 10px;
-  color: rgba(246,246,246,0.78);
-  font-weight: 900;
-  font-size: 13px;
-}
-.trainer-card__exp{
-  margin:0;
-  color: rgba(246,246,246,0.76);
-  font-size: 13px;
-  line-height: 1.6;
-}
-.trainer-card__back{
-  transform: rotateY(180deg);
-  padding: 18px;
-  display:flex;
-  flex-direction:column;
-  gap: 12px;
-  justify-content:center;
-  background:
-    radial-gradient(900px 450px at 20% 30%, rgba(255,212,0,0.16), transparent 60%),
-    rgba(255,255,255,0.05);
-}
-.trainer-card__back h4{
-  margin:0;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.trainer-card__back p{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.7;
-}
-.trainer-card__social{
-  display:flex;
-  gap: 10px;
-}
-.trainers__note{
-  margin-top: 18px;
-  text-align:center;
-  color: rgba(246,246,246,0.78);
-  font-weight: 800;
-}
+          <symbol id="i-heart" viewBox="0 0 24 24">
+            <path d="M12 21s-7-4.7-9.4-9.2C.6 7.7 3.4 4 7 4c1.9 0 3.3 1 5 2.8C13.7 5 15.1 4 17 4c3.6 0 6.4 3.7 4.4 7.8C19 16.3 12 21 12 21Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </symbol>
 
-/* ==========================================================
-  11) GALLERY (filters + lightbox)
-========================================================== */
-.section--gallery{
-  background:
-    radial-gradient(900px 450px at 15% 20%, rgba(255,212,0,0.08), transparent 60%),
-    radial-gradient(900px 500px at 85% 70%, rgba(255,212,0,0.06), transparent 62%);
-}
-.gallery-controls{
-  display:flex;
-  justify-content:center;
-  gap: 10px;
-  flex-wrap:wrap;
-  margin-top: 16px;
-}
-.gallery-grid{
-  margin-top: 22px;
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 14px;
-}
-.gallery-item{
-  margin:0;
-}
-.gallery-item__btn{
-  width: 100%;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  cursor:pointer;
-  text-align:left;
-  position: relative;
-  border-radius: 18px;
-  overflow:hidden;
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 0 30px rgba(0,0,0,0.20);
-  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
-}
-.gallery-item__btn:hover{
-  transform: translateY(-4px);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 44px rgba(255,212,0,0.12);
-}
-.gallery-item__img{
-  height: 220px;
-  background-size: cover;
-  background-position: center;
-  filter: saturate(1.08) contrast(1.05);
-  position: relative;
-}
-.gallery-item__img::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.72));
-}
-.gallery-item__cap{
-  position:absolute;
-  left: 14px;
-  bottom: 14px;
-  margin:0;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  z-index: 1;
-}
-.gallery-item__tag{
-  position:absolute;
-  top: 12px;
-  left: 12px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,212,0,0.25);
-  color: rgba(246,246,246,0.88);
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 10px;
-  backdrop-filter: blur(10px);
-  z-index: 1;
-}
+          <symbol id="i-bolt" viewBox="0 0 24 24">
+            <path d="M13 2 3 14h8l-1 8 11-14h-8l0-6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </symbol>
 
-.gallery-item__img--1{background-image:url("https://images.unsplash.com/photo-1550345332-09e3ac987658?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--2{background-image:url("https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--3{background-image:url("https://images.unsplash.com/photo-1532384555668-bc0c32a17ffd?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--4{background-image:url("https://images.unsplash.com/photo-1599058917765-32c9bbf0f58c?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--5{background-image:url("https://images.unsplash.com/photo-1517963879433-6ad2b056d712?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--6{background-image:url("https://images.unsplash.com/photo-1546483875-ad9014c88eba?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--7{background-image:url("https://images.unsplash.com/photo-1554344728-77cf90d9ed26?auto=format&fit=crop&w=1400&q=70");}
-.gallery-item__img--8{background-image:url("https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?auto=format&fit=crop&w=1400&q=70");}
+          <symbol id="i-user" viewBox="0 0 24 24">
+            <path d="M20 21a8 8 0 0 0-16 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </symbol>
 
-/* Filter transitions */
-.gallery-item.is-filtered-out{
-  opacity: 0;
-  transform: scale(0.98);
-  pointer-events:none;
-  transition: opacity .25s var(--ease), transform .25s var(--ease);
-}
-.gallery-item{
-  transition: opacity .25s var(--ease), transform .25s var(--ease);
-}
+          <symbol id="i-locker" viewBox="0 0 24 24">
+            <path d="M7 3h10v18H7z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M10 7h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M11 11h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* Lightbox */
-.lightbox{
-  position: fixed;
-  inset: 0;
-  z-index: 1900;
-  background: rgba(0,0,0,0.80);
-  backdrop-filter: blur(10px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 18px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .25s var(--ease), visibility .25s var(--ease);
-}
-.lightbox.is-open{
-  opacity: 1;
-  visibility: visible;
-}
-.lightbox__figure{
-  margin:0;
-  width: min(980px, 94vw);
-  border-radius: 18px;
-  overflow:hidden;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.06);
-  box-shadow: 0 0 70px rgba(0,0,0,0.55);
-}
-.lightbox__img{
-  width:100%;
-  height: min(70vh, 640px);
-  object-fit: cover;
-  display:block;
-}
-.lightbox__caption{
-  padding: 14px 16px;
-  color: rgba(246,246,246,0.84);
-  font-weight: 800;
-  line-height: 1.6;
-}
-.lightbox__close{
-  position:absolute;
-  top: 16px;
-  right: 16px;
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.08);
-  color: rgba(246,246,246,0.92);
-  font-size: 20px;
-  cursor:pointer;
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
-}
-.lightbox__close:hover{
-  transform: translateY(-2px);
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 20px rgba(255,212,0,0.16);
-}
-.lightbox__nav{
-  position:absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 56px;
-  height: 56px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.08);
-  color: rgba(246,246,246,0.92);
-  font-size: 32px;
-  cursor:pointer;
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
-}
-.lightbox__nav:hover{
-  transform: translateY(-50%) scale(1.02);
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 20px rgba(255,212,0,0.16);
-}
-.lightbox__nav--prev{left: 16px;}
-.lightbox__nav--next{right: 16px;}
+          <symbol id="i-steam" viewBox="0 0 24 24">
+            <path d="M7 20c2-2 2-4 0-6s-2-4 0-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 20c2-2 2-4 0-6s-2-4 0-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M17 20c2-2 2-4 0-6s-2-4 0-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  12) TESTIMONIALS
-========================================================== */
-.section--testimonials{
-  background:
-    radial-gradient(900px 450px at 70% 25%, rgba(255,212,0,0.08), transparent 60%),
-    linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
-}
-.testimonial{
-  position: relative;
-  margin-top: 26px;
-}
-.testimonial__track{
-  display:flex;
-  gap: 14px;
-  overflow:hidden;
-  scroll-behavior: smooth;
-}
-.testimonial-card{
-  flex: 0 0 420px;
-  padding: 18px 18px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 34px rgba(0,0,0,0.22);
-  transition: transform .22s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease);
-}
-.testimonial-card:hover{
-  transform: translateY(-4px);
-  border-color: rgba(255,212,0,0.30);
-  box-shadow: 0 0 44px rgba(255,212,0,0.12);
-}
-.testimonial-card__top{
-  display:flex;
-  gap: 12px;
-  align-items:center;
-}
-.testimonial-card__avatar{
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: rgba(255,212,0,0.12);
-  border: 1px solid rgba(255,212,0,0.22);
-  color: var(--yellow);
-  font-weight: 1000;
-  display:grid;
-  place-items:center;
-  text-shadow: 0 0 18px rgba(255,212,0,0.18);
-}
-.testimonial-card__who h4{
-  margin:0;
-  font-weight: 1000;
-}
-.testimonial-card__who p{
-  margin: 4px 0 0;
-  color: rgba(246,246,246,0.72);
-  font-weight: 800;
-  font-size: 12px;
-}
-.testimonial-card__text{
-  margin: 12px 0 0;
-  color: rgba(246,246,246,0.82);
-  line-height: 1.7;
-  font-weight: 700;
-}
-.testimonial-card__stars{
-  margin-top: 12px;
-  color: var(--yellow);
-  letter-spacing: 0.14em;
-}
-.testimonial__controls{
-  margin-top: 14px;
-  display:flex;
-  justify-content:center;
-  gap: 10px;
-}
-.testimonial__dots{
-  margin-top: 12px;
-  display:flex;
-  justify-content:center;
-  gap: 8px;
-}
-.dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 99px;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.14);
-  transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
-}
-.dot.is-active{
-  background: rgba(255,212,0,0.95);
-  border-color: rgba(255,212,0,0.45);
-  transform: scale(1.15);
-}
+          <symbol id="i-cup" viewBox="0 0 24 24">
+            <path d="M6 8h10v10a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V8Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 10h2a2 2 0 0 1 0 4h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 4h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  13) TIMETABLE
-========================================================== */
-.table-wrap{
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 36px rgba(0,0,0,0.22);
-  overflow:hidden;
-  margin-top: 22px;
-}
-.timetable{
-  width: 100%;
-  border-collapse: collapse;
-}
-.timetable thead th{
-  text-align:left;
-  padding: 16px 14px;
-  font-size: 12px;
-  font-weight: 1000;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: rgba(0,0,0,0.35);
-  border-bottom: 1px solid rgba(255,255,255,0.10);
-}
-.timetable tbody td{
-  padding: 14px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  color: rgba(246,246,246,0.82);
-  font-weight: 800;
-  font-size: 13px;
-}
-.timetable tbody tr:hover td{
-  background: rgba(255,255,255,0.03);
-}
-.pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(255,212,0,0.12);
-  border: 1px solid rgba(255,212,0,0.22);
-  color: rgba(246,246,246,0.90);
-  font-weight: 1000;
-  font-size: 12px;
-}
-.pill--alt{
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.14);
-}
-.pill--rest{
-  background: rgba(0,0,0,0.35);
-  border-color: rgba(255,255,255,0.14);
-  color: rgba(246,246,246,0.70);
-}
-.timetable__cta{
-  margin-top: 18px;
-  display:flex;
-  justify-content:center;
-}
+          <symbol id="i-bag" viewBox="0 0 24 24">
+            <path d="M7 8h10l1 13H6L7 8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M9 8a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  14) LOCATION
-========================================================== */
-.section--location{
-  background:
-    radial-gradient(900px 450px at 20% 30%, rgba(255,212,0,0.08), transparent 62%),
-    linear-gradient(180deg, transparent, rgba(255,255,255,0.02));
-}
-.location__info{
-  padding-right: 12px;
-}
-.location-cards{
-  margin-top: 18px;
-  display:grid;
-  gap: 12px;
-}
-.location-card{
-  display:flex;
-  gap: 12px;
-  padding: 14px 14px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 26px rgba(0,0,0,0.20);
-}
-.location-card__icon{
-  width: 44px;
-  height: 44px;
-  border-radius: 16px;
-  background: rgba(255,212,0,0.10);
-  border: 1px solid rgba(255,212,0,0.22);
-  display:grid;
-  place-items:center;
-  font-size: 18px;
-}
-.location-card__text h4{
-  margin:0 0 4px;
-  font-weight: 1000;
-}
-.location-card__text p{
-  margin:0;
-  color: rgba(246,246,246,0.78);
-  line-height: 1.6;
-  font-weight: 750;
-  font-size: 14px;
-}
-.location__cta{
-  margin-top: 16px;
-  display:flex;
-  gap: 12px;
-  flex-wrap:wrap;
-}
-.location__map{
-  position: relative;
-  border-radius: 22px;
-  overflow:hidden;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 36px rgba(0,0,0,0.22);
-  min-height: 420px;
-}
-.location__map iframe{
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  border: 0;
-  filter: grayscale(1) contrast(1.1) brightness(0.95);
-}
-.location__map__overlay{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(700px 420px at 30% 30%, rgba(255,212,0,0.12), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.25));
-  mix-blend-mode: screen;
-}
+          <symbol id="i-group" viewBox="0 0 24 24">
+            <path d="M16 21a6 6 0 0 0-12 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 10a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 10 10Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 21a5 5 0 0 0-6-4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16.5 10a3 3 0 1 0-3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  15) ENQUIRY FORM
-========================================================== */
-.section--enquiry{
-  background:
-    radial-gradient(900px 450px at 80% 20%, rgba(255,212,0,0.10), transparent 60%),
-    radial-gradient(900px 450px at 15% 80%, rgba(255,212,0,0.06), transparent 62%);
-}
-.enquiry-grid{
-  display:grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 16px;
-  align-items:start;
-  margin-top: 22px;
-}
-.enquiry__panel{
-  padding: 18px 18px;
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 36px rgba(0,0,0,0.22);
-}
-.enquiry__panel h4{
-  margin:0 0 10px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.steps{
-  margin: 0;
-  padding-left: 0;
-  list-style:none;
-  display:grid;
-  gap: 10px;
-}
-.steps li{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: rgba(246,246,246,0.82);
-  font-weight: 800;
-}
-.steps__n{
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,212,0,0.12);
-  border: 1px solid rgba(255,212,0,0.22);
-  color: var(--yellow);
-  font-weight: 1000;
-}
-.enquiry__highlight{
-  margin-top: 14px;
-  padding: 12px 12px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,212,0,0.22);
-  background: rgba(255,212,0,0.08);
-  color: rgba(246,246,246,0.82);
-  font-weight: 800;
-}
-.enquiry__highlight p{margin:0; line-height: 1.6;}
-.mini-features{
-  margin-top: 14px;
-  display:flex;
-  gap: 10px;
-  flex-wrap:wrap;
-}
-.mini-feature{
-  display:flex;
-  gap: 10px;
-  align-items:center;
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-}
-.mini-feature__icon{
-  width: 30px;
-  height: 30px;
-  border-radius: 12px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,212,0,0.10);
-  border: 1px solid rgba(255,212,0,0.18);
-}
-.mini-feature__text{
-  font-weight: 900;
-  color: rgba(246,246,246,0.82);
-  font-size: 13px;
-}
+          <symbol id="i-yoga" viewBox="0 0 24 24">
+            <path d="M12 7a2 2 0 1 0-2-2 2 2 0 0 0 2 2Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M6 21c3-6 9-6 12 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 9c-2 2-4 3-6 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 9c2 2 4 3 6 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-.form{
-  padding: 18px 18px;
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 36px rgba(0,0,0,0.22);
-}
-.form__row{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.field--full{grid-column: 1 / -1;}
-.field label{
-  display:block;
-  font-weight: 1000;
-  letter-spacing: 0.02em;
-  margin: 0 0 8px;
-  color: rgba(246,246,246,0.90);
-  font-size: 13px;
-}
-.field input,
-.field select,
-.field textarea{
-  width:100%;
-  padding: 13px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.30);
-  color: rgba(246,246,246,0.92);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-  transition: border-color .2s var(--ease), box-shadow .2s var(--ease), transform .2s var(--ease);
-  outline:none;
-}
-.field textarea{resize: vertical; min-height: 120px;}
-.field input::placeholder,
-.field textarea::placeholder{
-  color: rgba(246,246,246,0.45);
-}
-.field input:focus,
-.field select:focus,
-.field textarea:focus{
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 0 4px rgba(255,212,0,0.12);
-}
-.field__hint{
-  display:block;
-  margin-top: 8px;
-  color: rgba(246,246,246,0.58);
-  font-weight: 750;
-  line-height: 1.5;
-  font-size: 12px;
-}
+          <symbol id="i-gloves" viewBox="0 0 24 24">
+            <path d="M8 21V10a2 2 0 0 1 2-2h1v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 12V8h1a2 2 0 0 1 2 2v11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6 21h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-.form__actions{
-  margin-top: 10px;
-}
-.form__privacy{
-  margin: 10px 0 0;
-  color: rgba(246,246,246,0.60);
-  font-weight: 750;
-  line-height: 1.6;
-  font-size: 12px;
-}
+          <symbol id="i-shower" viewBox="0 0 24 24">
+            <path d="M6 6h10a2 2 0 0 1 2 2v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6 8v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 12v.01M13 14v.01M16 12v.01M12 17v.01M15 18v.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </symbol>
 
-/* Toast */
-.toast{
-  margin-top: 12px;
-  padding: 12px 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.35);
-  color: rgba(246,246,246,0.86);
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  display:none;
-}
-.toast.is-show{
-  display:block;
-  animation: toastIn .25s var(--ease) both;
-}
-@keyframes toastIn{
-  from{opacity:0; transform: translateY(8px);}
-  to{opacity:1; transform: translateY(0);}
-}
+          <symbol id="i-parking" viewBox="0 0 24 24">
+            <path d="M7 3h7a5 5 0 0 1 0 10H7V3Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 13v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  16) FOOTER
-========================================================== */
-.footer{
-  padding: 60px 0 26px;
-  border-top: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.28);
-}
-.footer__grid{
-  display:grid;
-  grid-template-columns: 1.2fr 0.7fr 0.7fr 0.8fr;
-  gap: 16px;
-  align-items:start;
-}
-.brand--footer .brand__text{
-  font-size: 16px;
-}
-.footer__title{
-  margin:0 0 12px;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-}
-.footer__text{
-  margin: 10px 0 0;
-  color: rgba(246,246,246,0.72);
-  line-height: 1.7;
-  font-weight: 750;
-}
-.footer__links ul{
-  list-style:none;
-  margin:0;
-  padding:0;
-  display:grid;
-  gap: 10px;
-}
-.footer__links a{
-  color: rgba(246,246,246,0.78);
-  font-weight: 850;
-  transition: color .2s var(--ease);
-}
-.footer__links a:hover{
-  color: var(--yellow);
-}
-.footer__cta{
-  display:flex;
-  flex-direction:column;
-  gap: 10px;
-}
-.footer__social{
-  margin-top: 12px;
-  display:flex;
-  gap: 10px;
-  flex-wrap:wrap;
-}
-.footer__bottom{
-  margin-top: 26px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display:flex;
-  justify-content:space-between;
-  gap: 12px;
-  color: rgba(246,246,246,0.62);
-  font-weight: 800;
-  font-size: 12px;
-}
-.footer__mini{color: rgba(246,246,246,0.58);}
+          <symbol id="i-snow" viewBox="0 0 24 24">
+            <path d="M12 2v20M4 7l16 10M20 7 4 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </symbol>
 
-/* ==========================================================
-  17) BACK TO TOP BUTTON
-========================================================== */
-.back-to-top{
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 1450;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  color: rgba(246,246,246,0.90);
-  border-radius: 18px;
-  padding: 10px 12px;
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  cursor:pointer;
-  transform: translateY(16px);
-  opacity:0;
-  pointer-events:none;
-  transition: opacity .25s var(--ease), transform .25s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
-}
-.back-to-top:hover{
-  border-color: rgba(255,212,0,0.35);
-  box-shadow: 0 0 20px rgba(255,212,0,0.16);
-}
-.back-to-top.is-show{
-  opacity:1;
-  pointer-events:auto;
-  transform: translateY(0);
-}
-.back-to-top__icon{
-  width: 34px;
-  height: 34px;
-  border-radius: 14px;
-  background: rgba(255,212,0,0.12);
-  border: 1px solid rgba(255,212,0,0.22);
-  display:grid;
-  place-items:center;
-  color: var(--yellow);
-  font-weight: 1000;
-}
-.back-to-top__text{
-  font-weight: 1000;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 11px;
-}
+          <symbol id="i-camera" viewBox="0 0 24 24">
+            <path d="M5 7h3l2-2h4l2 2h3v12H5V7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 17a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </symbol>
+        </svg>
 
-/* ==========================================================
-  18) SCROLL REVEAL ANIMATIONS
-========================================================== */
-.reveal{
-  opacity: 0;
-  transform: translateY(16px);
-  filter: blur(2px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease), filter .7s var(--ease);
-}
-.reveal.is-visible{
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
+        <div class="facilities__grid">
+          <!-- 1 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-dumbbell"></use></svg>
+            </div>
+            <h3 class="facility__title">Weight Training Area</h3>
+            <p class="facility__text">Heavy-duty free weights, racks, platforms, and premium machines.</p>
+          </article>
 
-/* ==========================================================
-  19) RIPPLE EFFECT (span injected)
-========================================================== */
-.ripple{
-  position: relative;
-  overflow:hidden;
-}
-.ripple span.ripple__circle{
-  position:absolute;
-  border-radius: 999px;
-  transform: scale(0);
-  animation: ripple .65s var(--ease) forwards;
-  background: rgba(255,255,255,0.35);
-  mix-blend-mode: overlay;
-  pointer-events:none;
-}
-@keyframes ripple{
-  to{
-    transform: scale(4);
-    opacity: 0;
-  }
-}
+          <!-- 2 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-heart"></use></svg>
+            </div>
+            <h3 class="facility__title">Cardio Zone</h3>
+            <p class="facility__text">Treadmills, bikes, rowers, and HIIT-friendly cardio layout.</p>
+          </article>
 
-/* ==========================================================
-  20) RESPONSIVE
-========================================================== */
-@media (max-width: 1100px){
-  .grid--2{grid-template-columns: 1fr;}
-  .about__media{min-height: 480px;}
-  .trainer-grid{grid-template-columns: repeat(2, minmax(0,1fr));}
-  .gallery-grid{grid-template-columns: repeat(3, minmax(0,1fr));}
-  .program-grid{grid-template-columns: repeat(2, minmax(0,1fr));}
-  .facility-grid{grid-template-columns: repeat(2, minmax(0,1fr));}
-  .footer__grid{grid-template-columns: 1fr 1fr;}
-}
+          <!-- 3 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-bolt"></use></svg>
+            </div>
+            <h3 class="facility__title">CrossFit</h3>
+            <p class="facility__text">Functional rigs, sleds, battle ropes, and WOD-ready space.</p>
+          </article>
 
-@media (max-width: 860px){
-  :root{--nav-h: 74px;}
-  .nav__toggle{display:block;}
-  .nav__menu{
-    position: fixed;
-    top: var(--nav-h);
-    right: 18px;
-    left: 18px;
-    border-radius: 22px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(6,6,6,0.86);
-    backdrop-filter: blur(18px);
-    box-shadow: var(--shadow);
-    padding: 14px;
-    flex-direction:column;
-    align-items:stretch;
-    gap: 8px;
-    transform: translateY(-12px);
-    opacity:0;
-    visibility:hidden;
-    transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s var(--ease);
-    z-index: 1300;
-  }
-  .nav__menu.is-open{
-    transform: translateY(0);
-    opacity:1;
-    visibility:visible;
-  }
-  .nav__link{
-    width: 100%;
-    padding: 12px 14px;
-    justify-content:flex-start;
-    border-color: rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.04);
-  }
-  .nav__link--cta{
-    justify-content:center;
-  }
-  .hero__stats{grid-template-columns: repeat(2, minmax(0,1fr));}
-  .enquiry-grid{grid-template-columns: 1fr;}
-  .gallery-grid{grid-template-columns: repeat(2, minmax(0,1fr));}
-  .pricing-grid{grid-template-columns: 1fr;}
-  .program-grid{grid-template-columns: 1fr;}
-  .facility-grid{grid-template-columns: 1fr;}
-  .footer__grid{grid-template-columns: 1fr;}
-  .footer__bottom{flex-direction:column; align-items:flex-start;}
-}
+          <!-- 4 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-user"></use></svg>
+            </div>
+            <h3 class="facility__title">Personal Training</h3>
+            <p class="facility__text">1:1 coaching with structured plans and form-focused sessions.</p>
+          </article>
 
-@media (max-width: 560px){
-  .container{width: calc(100% - 28px);}
-  .hero{padding: 56px 0 60px;}
-  .hero__title{letter-spacing: -0.03em;}
-  .about__cards{grid-template-columns: 1fr;}
-  .trainer-grid{grid-template-columns: 1fr;}
-  .gallery-item__img{height: 200px;}
-  .testimonial-card{flex-basis: 86vw;}
-  .form__row{grid-template-columns: 1fr;}
-  .about__image--main{inset:0 0 90px 0;}
-  .about__image--accent{width: 70%; height: 42%;}
-}
+          <!-- 5 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-locker"></use></svg>
+            </div>
+            <h3 class="facility__title">Locker Rooms</h3>
+            <p class="facility__text">Secure lockers with premium changing areas and hygiene focus.</p>
+          </article>
 
-/* ==========================================================
-  21) RESPONSIVE TABLE -> STACKED CARDS (mobile)
-========================================================== */
-@media (max-width: 820px){
-  .timetable thead{display:none;}
-  .timetable, .timetable tbody, .timetable tr, .timetable td{
-    display:block;
-    width: 100%;
-  }
-  .timetable tr{
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding: 12px 12px;
-  }
-  .timetable tbody td{
-    border: 0;
-    padding: 8px 0;
-    display:flex;
-    justify-content:space-between;
-    gap: 12px;
-  }
-  .timetable tbody td::before{
-    content: attr(data-label);
-    color: rgba(246,246,246,0.58);
-    font-weight: 1000;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: 11px;
-  }
-}
+          <!-- 6 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-steam"></use></svg>
+            </div>
+            <h3 class="facility__title">Steam & Sauna</h3>
+            <p class="facility__text">Recovery-focused heat therapy to relax, restore, and recharge.</p>
+          </article>
 
-/* ==========================================================
-  22) REDUCED MOTION
-========================================================== */
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto;}
-  *{
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior:auto !important;
-  }
-}
+          <!-- 7 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-cup"></use></svg>
+            </div>
+            <h3 class="facility__title">Nutrition Bar</h3>
+            <p class="facility__text">Protein shakes, hydration support, and performance fueling options.</p>
+          </article>
+
+          <!-- 8 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-bag"></use></svg>
+            </div>
+            <h3 class="facility__title">Supplement Store</h3>
+            <p class="facility__text">Curated supplements to support strength, recovery, and body goals.</p>
+          </article>
+
+          <!-- 9 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-group"></use></svg>
+            </div>
+            <h3 class="facility__title">Group Classes</h3>
+            <p class="facility__text">High-energy classes for motivation, conditioning, and consistency.</p>
+          </article>
+
+          <!-- 10 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-group"></use></svg>
+            </div>
+            <h3 class="facility__title">Zumba</h3>
+            <p class="facility__text">Dance-based cardio sessions for fat-loss and fun momentum.</p>
+          </article>
+
+          <!-- 11 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-yoga"></use></svg>
+            </div>
+            <h3 class="facility__title">Yoga</h3>
+            <p class="facility__text">Mobility, breathing, recovery, and balance work for every level.</p>
+          </article>
+
+          <!-- 12 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-gloves"></use></svg>
+            </div>
+            <h3 class="facility__title">Boxing</h3>
+            <p class="facility__text">Striking drills, bags, and conditioning — power + endurance.</p>
+          </article>
+
+          <!-- 13 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-bolt"></use></svg>
+            </div>
+            <h3 class="facility__title">Functional Training</h3>
+            <p class="facility__text">Kettlebells, TRX-style setups, agility tools, and movement skill.</p>
+          </article>
+
+          <!-- 14 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-dumbbell"></use></svg>
+            </div>
+            <h3 class="facility__title">Strength Conditioning</h3>
+            <p class="facility__text">Hybrid sessions combining strength, speed, and conditioning blocks.</p>
+          </article>
+
+          <!-- 15 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-shower"></use></svg>
+            </div>
+            <h3 class="facility__title">Shower Facilities</h3>
+            <p class="facility__text">Clean, comfortable showers to reset after intense sessions.</p>
+          </article>
+
+          <!-- 16 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-parking"></use></svg>
+            </div>
+            <h3 class="facility__title">Parking Area</h3>
+            <p class="facility__text">Convenient parking access for a stress-free arrival.</p>
+          </article>
+
+          <!-- 17 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-snow"></use></svg>
+            </div>
+            <h3 class="facility__title">Air Conditioning</h3>
+            <p class="facility__text">Cool, controlled climate to keep performance consistent.</p>
+          </article>
+
+          <!-- 18 -->
+          <article class="facility reveal" data-reveal>
+            <div class="facility__icon">
+              <svg><use href="#i-camera"></use></svg>
+            </div>
+            <h3 class="facility__title">CCTV Security</h3>
+            <p class="facility__text">Safety-first environment with monitored areas and secure access.</p>
+          </article>
+        </div>
+
+        <div class="facilities__note reveal" data-reveal>
+          <p>
+            Premium equipment. Clean zones. Strong coaching. Everything is built to keep you training consistently.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PROGRAMS + PRICING
+         ======================================================= -->
+    <section class="section programs" id="programs" aria-label="Programs and Pricing">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>PROGRAMS</p>
+          <h2 class="section__title reveal" data-reveal>Plans built for real goals</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Choose your path — muscle gain, fat loss, strength, performance, beginner foundations, or advanced bodybuilding.
+          </p>
+        </header>
+
+        <div class="programs__grid">
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Muscle Gain Program</h3>
+            <p class="program__text">Hypertrophy blocks, progressive overload, volume management, and recovery strategy.</p>
+            <ul class="program__list">
+              <li>Split programming</li>
+              <li>Form + tempo cues</li>
+              <li>Accessory optimization</li>
+              <li>Weekly progress tracking</li>
+            </ul>
+          </article>
+
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Fat Loss Program</h3>
+            <p class="program__text">Smart calorie burn with strength retention — conditioning without burnout.</p>
+            <ul class="program__list">
+              <li>Strength + cardio blend</li>
+              <li>Core + posture work</li>
+              <li>Step + recovery targets</li>
+              <li>Nutrition habits guidance</li>
+            </ul>
+          </article>
+
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Strength Training</h3>
+            <p class="program__text">Build your squat, bench, and deadlift with structured intensity and technique.</p>
+            <ul class="program__list">
+              <li>Top sets + back-off sets</li>
+              <li>Deload strategy</li>
+              <li>Bracing + mobility</li>
+              <li>Performance tracking</li>
+            </ul>
+          </article>
+
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Athletic Performance</h3>
+            <p class="program__text">Speed, agility, power, and conditioning for sport and high-performance goals.</p>
+            <ul class="program__list">
+              <li>Power development</li>
+              <li>Movement efficiency</li>
+              <li>Conditioning phases</li>
+              <li>Injury prevention focus</li>
+            </ul>
+          </article>
+
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Beginner Program</h3>
+            <p class="program__text">Master the fundamentals: technique, confidence, consistency, and baseline strength.</p>
+            <ul class="program__list">
+              <li>Full-body training</li>
+              <li>Beginner-friendly progression</li>
+              <li>Mobility foundations</li>
+              <li>Habit building</li>
+            </ul>
+          </article>
+
+          <article class="program reveal" data-reveal>
+            <h3 class="program__title">Advanced Bodybuilding Plan</h3>
+            <p class="program__text">Advanced splits, specialization blocks, intensity techniques, and physique detail.</p>
+            <ul class="program__list">
+              <li>Specialization cycles</li>
+              <li>RIR/RPE guidance</li>
+              <li>Pump + tension balance</li>
+              <li>Recovery protocols</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="pricing" aria-label="Pricing plans">
+          <h3 class="pricing__title reveal" data-reveal>Pricing</h3>
+          <p class="pricing__subtitle reveal" data-reveal>
+            Transparent plans with premium value. Choose the commitment level that matches your goal.
+          </p>
+
+          <div class="pricing__grid">
+            <article class="price-card reveal" data-reveal>
+              <header class="price-card__header">
+                <h4 class="price-card__name">Monthly</h4>
+                <p class="price-card__price"><span class="price-card__currency">₹</span>1,999</p>
+                <p class="price-card__meta">Best for getting started</p>
+              </header>
+              <ul class="price-card__list">
+                <li>Gym access (all zones)</li>
+                <li>Basic assessment</li>
+                <li>Starter plan guidance</li>
+                <li>Progress check-ins</li>
+              </ul>
+              <div class="price-card__actions">
+                <a class="btn btn--ghost ripple" href="#enquiry" data-ripple>Choose Monthly</a>
+              </div>
+            </article>
+
+            <article class="price-card price-card--popular reveal" data-reveal>
+              <div class="price-card__ribbon" aria-hidden="true">Most Popular</div>
+              <header class="price-card__header">
+                <h4 class="price-card__name">Quarterly</h4>
+                <p class="price-card__price"><span class="price-card__currency">₹</span>4,999</p>
+                <p class="price-card__meta">Best value + consistency</p>
+              </header>
+              <ul class="price-card__list">
+                <li>Gym access (all zones)</li>
+                <li>Program selection support</li>
+                <li>Trainer check-in sessions</li>
+                <li>Form & technique audits</li>
+                <li>Recovery recommendations</li>
+              </ul>
+              <div class="price-card__actions">
+                <a class="btn btn--primary ripple" href="#enquiry" data-ripple>Choose Quarterly</a>
+              </div>
+            </article>
+
+            <article class="price-card reveal" data-reveal>
+              <header class="price-card__header">
+                <h4 class="price-card__name">Yearly</h4>
+                <p class="price-card__price"><span class="price-card__currency">₹</span>16,999</p>
+                <p class="price-card__meta">Best for transformation</p>
+              </header>
+              <ul class="price-card__list">
+                <li>Gym access (all zones)</li>
+                <li>Quarterly assessments</li>
+                <li>Priority program upgrades</li>
+                <li>Body composition tracking</li>
+                <li>Exclusive community events</li>
+              </ul>
+              <div class="price-card__actions">
+                <a class="btn btn--ghost ripple" href="#enquiry" data-ripple>Choose Yearly</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="pricing__fineprint reveal" data-reveal>
+            <p>
+              Note: Prices are placeholders and can be adjusted. Contact us for student/couple/corporate memberships.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         TRAINERS (flip cards, social icons)
+         ======================================================= -->
+    <section class="section trainers" id="trainers" aria-label="Trainers">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>TRAINERS</p>
+          <h2 class="section__title reveal" data-reveal>Coaching that demands results</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Elite guidance. Strong technique. Clear structure. Meet the team that keeps you progressing.
+          </p>
+        </header>
+
+        <div class="trainers__grid">
+          <!-- Trainer 1 -->
+          <article class="trainer reveal" data-reveal>
+            <div class="trainer__card" tabindex="0" aria-label="Trainer profile card">
+              <div class="trainer__face trainer__face--front">
+                <img
+                  class="trainer__img"
+                  src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=900&q=80"
+                  alt="Trainer Arjun — Strength Coach"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="trainer__front-content">
+                  <h3 class="trainer__name">Arjun Verma</h3>
+                  <p class="trainer__role">Strength Coach</p>
+                  <p class="trainer__exp"><strong>8+</strong> years experience</p>
+                  <span class="trainer__hint">Hover / Tap to flip</span>
+                </div>
+              </div>
+
+              <div class="trainer__face trainer__face--back">
+                <h4 class="trainer__back-title">Specialty</h4>
+                <ul class="trainer__tags">
+                  <li>Powerlifting</li>
+                  <li>Technique</li>
+                  <li>Strength Cycles</li>
+                  <li>Mobility</li>
+                </ul>
+                <p class="trainer__bio">
+                  Focused on building safe, powerful movement patterns and measurable performance progress.
+                </p>
+                <div class="trainer__social" aria-label="Trainer social links">
+                  <a class="icon-btn ripple" href="#" aria-label="Instagram" data-ripple>
+                    <span class="icon icon--ig" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="YouTube" data-ripple>
+                    <span class="icon icon--yt" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="Facebook" data-ripple>
+                    <span class="icon icon--fb" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Trainer 2 -->
+          <article class="trainer reveal" data-reveal>
+            <div class="trainer__card" tabindex="0" aria-label="Trainer profile card">
+              <div class="trainer__face trainer__face--front">
+                <img
+                  class="trainer__img"
+                  src="https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=900&q=80"
+                  alt="Trainer Neha — Body Recomposition"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="trainer__front-content">
+                  <h3 class="trainer__name">Neha Kapoor</h3>
+                  <p class="trainer__role">Body Recomposition</p>
+                  <p class="trainer__exp"><strong>6+</strong> years experience</p>
+                  <span class="trainer__hint">Hover / Tap to flip</span>
+                </div>
+              </div>
+
+              <div class="trainer__face trainer__face--back">
+                <h4 class="trainer__back-title">Specialty</h4>
+                <ul class="trainer__tags">
+                  <li>Fat Loss</li>
+                  <li>Strength + Cardio</li>
+                  <li>Habit Coaching</li>
+                  <li>Form Fix</li>
+                </ul>
+                <p class="trainer__bio">
+                  Structured sessions with sustainable nutrition habits and consistent accountability.
+                </p>
+                <div class="trainer__social" aria-label="Trainer social links">
+                  <a class="icon-btn ripple" href="#" aria-label="Instagram" data-ripple>
+                    <span class="icon icon--ig" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="YouTube" data-ripple>
+                    <span class="icon icon--yt" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="Facebook" data-ripple>
+                    <span class="icon icon--fb" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Trainer 3 -->
+          <article class="trainer reveal" data-reveal>
+            <div class="trainer__card" tabindex="0" aria-label="Trainer profile card">
+              <div class="trainer__face trainer__face--front">
+                <img
+                  class="trainer__img"
+                  src="https://images.unsplash.com/photo-1550345332-09e3ac987658?auto=format&fit=crop&w=900&q=80"
+                  alt="Trainer Rohit — Athletic Performance"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="trainer__front-content">
+                  <h3 class="trainer__name">Rohit Singh</h3>
+                  <p class="trainer__role">Athletic Performance</p>
+                  <p class="trainer__exp"><strong>7+</strong> years experience</p>
+                  <span class="trainer__hint">Hover / Tap to flip</span>
+                </div>
+              </div>
+
+              <div class="trainer__face trainer__face--back">
+                <h4 class="trainer__back-title">Specialty</h4>
+                <ul class="trainer__tags">
+                  <li>Speed</li>
+                  <li>Agility</li>
+                  <li>Power</li>
+                  <li>Conditioning</li>
+                </ul>
+                <p class="trainer__bio">
+                  Performance programming for athletes and high-output training goals.
+                </p>
+                <div class="trainer__social" aria-label="Trainer social links">
+                  <a class="icon-btn ripple" href="#" aria-label="Instagram" data-ripple>
+                    <span class="icon icon--ig" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="YouTube" data-ripple>
+                    <span class="icon icon--yt" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="Facebook" data-ripple>
+                    <span class="icon icon--fb" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Trainer 4 -->
+          <article class="trainer reveal" data-reveal>
+            <div class="trainer__card" tabindex="0" aria-label="Trainer profile card">
+              <div class="trainer__face trainer__face--front">
+                <img
+                  class="trainer__img"
+                  src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&w=900&q=80"
+                  alt="Trainer Aisha — Mobility & Recovery"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="trainer__front-content">
+                  <h3 class="trainer__name">Aisha Khan</h3>
+                  <p class="trainer__role">Mobility & Recovery</p>
+                  <p class="trainer__exp"><strong>5+</strong> years experience</p>
+                  <span class="trainer__hint">Hover / Tap to flip</span>
+                </div>
+              </div>
+
+              <div class="trainer__face trainer__face--back">
+                <h4 class="trainer__back-title">Specialty</h4>
+                <ul class="trainer__tags">
+                  <li>Yoga</li>
+                  <li>Mobility</li>
+                  <li>Breathing</li>
+                  <li>Recovery</li>
+                </ul>
+                <p class="trainer__bio">
+                  Keeps your body moving clean and pain-free — mobility that supports strength.
+                </p>
+                <div class="trainer__social" aria-label="Trainer social links">
+                  <a class="icon-btn ripple" href="#" aria-label="Instagram" data-ripple>
+                    <span class="icon icon--ig" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="YouTube" data-ripple>
+                    <span class="icon icon--yt" aria-hidden="true"></span>
+                  </a>
+                  <a class="icon-btn ripple" href="#" aria-label="Facebook" data-ripple>
+                    <span class="icon icon--fb" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="trainers__cta reveal" data-reveal>
+          <div class="trainers__cta-text">
+            <h3>Want a coach matched to your goal?</h3>
+            <p>Tell us your goal and preferred program — we’ll guide you to the best plan and trainer.</p>
+          </div>
+          <div class="trainers__cta-actions">
+            <a class="btn btn--primary ripple" href="#enquiry" data-ripple>Get Matched</a>
+            <a class="btn btn--ghost ripple" href="#timetable" data-ripple>See Timetable</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         TRANSFORMATION GALLERY (before/after grid + lightbox + filter)
+         ======================================================= -->
+    <section class="section gallery" id="gallery" aria-label="Transformation Gallery">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>TRANSFORMATIONS</p>
+          <h2 class="section__title reveal" data-reveal>Before / After gallery</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Every transformation starts with a decision. Browse results and get inspired.
+          </p>
+        </header>
+
+        <div class="gallery__controls reveal" data-reveal role="tablist" aria-label="Gallery filters">
+          <button class="chip chip--active ripple" data-ripple data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="chip ripple" data-ripple data-filter="muscle" role="tab" aria-selected="false">Muscle Gain</button>
+          <button class="chip ripple" data-ripple data-filter="fatloss" role="tab" aria-selected="false">Fat Loss</button>
+          <button class="chip ripple" data-ripple data-filter="strength" role="tab" aria-selected="false">Strength</button>
+          <button class="chip ripple" data-ripple data-filter="performance" role="tab" aria-selected="false">Performance</button>
+        </div>
+
+        <div class="gallery__grid" id="galleryGrid">
+          <!-- Each item has category and opens lightbox -->
+          <figure class="gallery__item reveal" data-reveal data-category="muscle">
+            <img
+              src="https://images.unsplash.com/photo-1546483875-ad9014c88eba?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: muscle gain"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Muscle Gain — 12 weeks"
+            />
+            <figcaption>Muscle Gain — 12 weeks</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="fatloss">
+            <img
+              src="https://images.unsplash.com/photo-1550345332-09e3ac987658?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: fat loss"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Fat Loss — 10 weeks"
+            />
+            <figcaption>Fat Loss — 10 weeks</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="strength">
+            <img
+              src="https://images.unsplash.com/photo-1517838277536-f5f99be50145?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: strength training"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Strength — +40kg total lift"
+            />
+            <figcaption>Strength — +40kg total lift</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="performance">
+            <img
+              src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: athletic performance"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Performance — faster conditioning"
+            />
+            <figcaption>Performance — faster conditioning</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="muscle">
+            <img
+              src="https://images.unsplash.com/photo-1526401485004-2aa6f5f4c719?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: advanced bodybuilding"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Advanced Bodybuilding — definition"
+            />
+            <figcaption>Advanced Bodybuilding — definition</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="fatloss">
+            <img
+              src="https://images.unsplash.com/photo-1546817372-31a3e1f8f9f6?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: lifestyle fat loss"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Lifestyle Fat Loss — consistency"
+            />
+            <figcaption>Lifestyle Fat Loss — consistency</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="strength">
+            <img
+              src="https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: strength and power"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Strength & Power — new PRs"
+            />
+            <figcaption>Strength & Power — new PRs</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="performance">
+            <img
+              src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: conditioning"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Conditioning — endurance upgrade"
+            />
+            <figcaption>Conditioning — endurance upgrade</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="muscle">
+            <img
+              src="https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: hypertrophy progress"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Hypertrophy — arms + shoulders"
+            />
+            <figcaption>Hypertrophy — arms + shoulders</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="fatloss">
+            <img
+              src="https://images.unsplash.com/photo-1540539234-c14a20fb7c7b?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: fat loss transformation"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Fat Loss — stronger & leaner"
+            />
+            <figcaption>Fat Loss — stronger & leaner</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="strength">
+            <img
+              src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: strength focus"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Strength Focus — disciplined training"
+            />
+            <figcaption>Strength Focus — disciplined training</figcaption>
+          </figure>
+
+          <figure class="gallery__item reveal" data-reveal data-category="performance">
+            <img
+              src="https://images.unsplash.com/photo-1517964603305-11c0f6f66012?auto=format&fit=crop&w=1000&q=80"
+              alt="Transformation photo: performance and speed"
+              loading="lazy"
+              decoding="async"
+              data-lightbox="true"
+              data-caption="Performance — speed & power"
+            />
+            <figcaption>Performance — speed & power</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Lightbox -->
+      <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+        <div class="lightbox__backdrop" data-lightbox-close></div>
+        <div class="lightbox__dialog" role="document">
+          <button class="lightbox__close ripple" type="button" aria-label="Close viewer" data-ripple data-lightbox-close>Close</button>
+          <figure class="lightbox__figure">
+            <img class="lightbox__img" id="lightboxImg" alt="" />
+            <figcaption class="lightbox__caption" id="lightboxCaption"></figcaption>
+          </figure>
+          <div class="lightbox__nav" aria-label="Lightbox navigation">
+            <button class="lightbox__btn ripple" type="button" data-ripple id="lightboxPrev" aria-label="Previous image">Prev</button>
+            <button class="lightbox__btn ripple" type="button" data-ripple id="lightboxNext" aria-label="Next image">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         TESTIMONIALS (carousel, auto-scroll, fade)
+         ======================================================= -->
+    <section class="section testimonials" id="testimonials" aria-label="Testimonials">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>TESTIMONIALS</p>
+          <h2 class="section__title reveal" data-reveal>What members say</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Strong community. Serious training. Real results.
+          </p>
+        </header>
+
+        <div class="carousel reveal" data-reveal aria-roledescription="carousel">
+          <div class="carousel__track" id="testimonialTrack" aria-live="polite">
+            <article class="review" aria-label="Testimonial 1">
+              <div class="review__stars" aria-label="5 star rating">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="review__text">
+                “THE GYM changed my mindset. The training plan was clear, the coaches were strict in the best way,
+                and the atmosphere is premium.”
+              </p>
+              <div class="review__meta">
+                <div class="review__avatar" aria-hidden="true">R</div>
+                <div>
+                  <p class="review__name">Rohan</p>
+                  <p class="review__tag">Muscle Gain Program</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="review" aria-label="Testimonial 2">
+              <div class="review__stars" aria-label="5 star rating">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="review__text">
+                “Lost fat without losing strength. The balance of cardio and lifting is perfect. The facility is clean
+                and the equipment feels top tier.”
+              </p>
+              <div class="review__meta">
+                <div class="review__avatar" aria-hidden="true">S</div>
+                <div>
+                  <p class="review__name">Sana</p>
+                  <p class="review__tag">Fat Loss Program</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="review" aria-label="Testimonial 3">
+              <div class="review__stars" aria-label="5 star rating">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="review__text">
+                “My squat and deadlift improved fast. Coaches fixed my form and the schedule made it easy to stay consistent.
+                Premium vibe and serious people.”
+              </p>
+              <div class="review__meta">
+                <div class="review__avatar" aria-hidden="true">A</div>
+                <div>
+                  <p class="review__name">Amit</p>
+                  <p class="review__tag">Strength Training</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="review" aria-label="Testimonial 4">
+              <div class="review__stars" aria-label="5 star rating">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+              </div>
+              <p class="review__text">
+                “The group classes are intense and fun. The trainers push you, and the sauna after training is a game changer.
+                Highly recommended.”
+              </p>
+              <div class="review__meta">
+                <div class="review__avatar" aria-hidden="true">K</div>
+                <div>
+                  <p class="review__name">Kavya</p>
+                  <p class="review__tag">Group Classes</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="carousel__controls" aria-label="Carousel controls">
+            <button class="carousel__btn ripple" type="button" id="testimonialPrev" aria-label="Previous review" data-ripple>Prev</button>
+            <div class="carousel__dots" id="testimonialDots" aria-label="Carousel pagination"></div>
+            <button class="carousel__btn ripple" type="button" id="testimonialNext" aria-label="Next review" data-ripple>Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         TIMETABLE (premium table, responsive mobile)
+         ======================================================= -->
+    <section class="section timetable" id="timetable" aria-label="Weekly Timetable">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow reveal" data-reveal>TIMETABLE</p>
+          <h2 class="section__title reveal" data-reveal>Weekly class schedule</h2>
+          <p class="section__subtitle reveal" data-reveal>
+            Build your week with structure. Times are placeholders and can be updated anytime.
+          </p>
+        </header>
+
+        <div class="table-wrap reveal" data-reveal>
+          <table class="table" aria-label="Weekly class timetable">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Mon</th>
+                <th scope="col">Tue</th>
+                <th scope="col">Wed</th>
+                <th scope="col">Thu</th>
+                <th scope="col">Fri</th>
+                <th scope="col">Sat</th>
+                <th scope="col">Sun</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">6:00 AM</th>
+                <td data-label="Mon"><span class="slot slot--strength">Strength</span></td>
+                <td data-label="Tue"><span class="slot slot--cardio">Cardio</span></td>
+                <td data-label="Wed"><span class="slot slot--strength">Strength</span></td>
+                <td data-label="Thu"><span class="slot slot--cardio">Cardio</span></td>
+                <td data-label="Fri"><span class="slot slot--strength">Strength</span></td>
+                <td data-label="Sat"><span class="slot slot--crossfit">CrossFit</span></td>
+                <td data-label="Sun"><span class="slot slot--rest">Open Gym</span></td>
+              </tr>
+
+              <tr>
+                <th scope="row">7:30 AM</th>
+                <td data-label="Mon"><span class="slot slot--yoga">Yoga</span></td>
+                <td data-label="Tue"><span class="slot slot--boxing">Boxing</span></td>
+                <td data-label="Wed"><span class="slot slot--yoga">Yoga</span></td>
+                <td data-label="Thu"><span class="slot slot--boxing">Boxing</span></td>
+                <td data-label="Fri"><span class="slot slot--yoga">Yoga</span></td>
+                <td data-label="Sat"><span class="slot slot--zumba">Zumba</span></td>
+                <td data-label="Sun"><span class="slot slot--rest">Open Gym</span></td>
+              </tr>
+
+              <tr>
+                <th scope="row">5:30 PM</th>
+                <td data-label="Mon"><span class="slot slot--crossfit">CrossFit</span></td>
+                <td data-label="Tue"><span class="slot slot--strength">Strength</span></td>
+                <td data-label="Wed"><span class="slot slot--crossfit">CrossFit</span></td>
+                <td data-label="Thu"><span class="slot slot--strength">Strength</span></td>
+                <td data-label="Fri"><span class="slot slot--crossfit">CrossFit</span></td>
+                <td data-label="Sat"><span class="slot slot--boxing">Boxing</span></td>
+                <td data-label="Sun"><span class="slot slot--rest">Closed</span></td>
+              </tr>
+
+              <tr>
+                <th scope="row">7:00 PM</th>
+                <td data-label="Mon"><span class="slot slot--zumba">Zumba</span></td>
+                <td data-label="Tue"><span class="slot slot--functional">Functional</span></td>
+                <td data-label="Wed"><span class="slot slot--zumba">Zumba</span></td>
+                <td data-label="Thu"><span class="slot slot--functional">Functional</span></td>
+                <td data-label="Fri"><span class="slot slot--zumba">Zumba</span></td>
+                <td data-label="Sat"><span class="slot slot--yoga">Yoga</span></td>
+                <td data-label="Sun"><span class="slot slot--rest">Closed</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="table-legend" aria-label="Legend">
+            <span class="legend"><span class="legend__dot legend__dot--strength"></span> Strength</span>
+            <span class="legend"><span class="legend__dot legend__dot--cardio"></span> Cardio</span>
+            <span class="legend"><span class="legend__dot legend__dot--crossfit"></span> CrossFit</span>
+            <span class="legend"><span class="legend__dot legend__dot--boxing"></span> Boxing</span>
+            <span class="legend"><span class="legend__dot legend__dot--yoga"></span> Yoga</span>
+            <span class="legend"><span class="legend__dot legend__dot--zumba"></span> Zumba</span>
+            <span class="legend"><span class="legend__dot legend__dot--functional"></span> Functional</span>
+            <span class="legend"><span class="legend__dot legend__dot--rest"></span> Open / Rest</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LOCATION (map + address + hours)
+         =================================================
